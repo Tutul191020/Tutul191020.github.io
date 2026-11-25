@@ -108,20 +108,21 @@
 
   /* Case cards — horizontal travel driven by vertical scroll (right to left) */
   .workscroll { position: relative; }
-  .worksticky { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-  .casesviewport { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
-  .cases-track { display: flex; width: max-content; will-change: transform; }
-  .cases-set { display: flex; gap: 22px; padding-right: 22px; align-items: stretch; }
+  .worksticky { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; background: var(--bg); padding-top: 76px; }
+  /* Full-bleed strip: cards run past both screen edges like the source, so no black side gutters */
+  .casesviewport { overflow: hidden; width: 100%; }
+  .cases-track { display: flex; width: max-content; will-change: transform; backface-visibility: hidden; }
+  .cases-set { display: flex; gap: 22px; align-items: stretch; padding-left: max(24px, calc((100vw - 1100px) / 2)); padding-right: max(24px, calc((100vw - 1100px) / 2)); }
   .casesviewport .reveal { opacity: 1; transform: none; transition: none; }
-  .scrollhint { text-align: center; color: var(--muted); font-size: 12px; margin-top: 18px; letter-spacing: .1em; text-transform: uppercase; }
-  .case { flex: 0 0 440px; width: 440px; border-radius: 18px; padding: 26px; position: relative; overflow: hidden; border: 1px solid rgba(244,244,242,.1); display: flex; flex-direction: column; }
+  .scrollhint { position: absolute; left: 0; right: 0; bottom: 20px; text-align: center; color: var(--muted); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+  .case { flex: 0 0 500px; width: 500px; border-radius: 18px; padding: 24px 26px; position: relative; overflow: hidden; border: 1px solid rgba(244,244,242,.1); display: flex; flex-direction: column; }
   .case::before { content: ""; position: absolute; inset: 0; background: repeating-conic-gradient(from 0deg at 85% -10%, rgba(255,255,255,.045) 0deg 6deg, transparent 6deg 12deg); pointer-events: none; }
   .case .tag { align-self: flex-start; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.22); padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
   .case h3 { font-family: var(--serif); font-weight: 700; font-size: 19px; line-height: 1.4; margin-bottom: 10px; }
   .case h3 a { color: inherit; }
   .case p { font-size: 14px; color: rgba(244,244,242,.85); margin-bottom: 14px; }
-  .case .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-  .case .shots img { width: 100%; border-radius: 10px; border: 1px solid rgba(255,255,255,.25); display: block; }
+  .case .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .case .shots img { width: 100%; height: 112px; object-fit: cover; object-position: top center; border-radius: 10px; border: 1px solid rgba(255,255,255,.25); display: block; }
   .case ul { list-style: none; font-size: 13.5px; margin-bottom: 16px; }
   .case li { padding-left: 18px; position: relative; margin-bottom: 5px; color: rgba(244,244,242,.9); }
   .case li::before { content: "▸"; position: absolute; left: 0; color: rgba(255,255,255,.75); }
@@ -198,6 +199,7 @@
     .casesviewport { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
     .worksticky { position: static; height: auto; }
     .workscroll { height: auto !important; }
+    .scrollhint { position: static; margin-top: 18px; }
     .aboutline .w { color: var(--text); }
   }
   @media (max-width: 860px) {
@@ -217,6 +219,7 @@
     .casesviewport { overflow: visible; -webkit-mask-image: none; mask-image: none; }
     .worksticky { position: static; height: auto; }
     .workscroll { height: auto !important; }
+    .scrollhint { position: static; margin-top: 18px; }
     .cases-track { width: auto; }
     .cases-set { flex-wrap: wrap; }
     .case { width: auto; flex: 1 1 45%; }
@@ -301,7 +304,8 @@
       <h2>Featured Projects</h2>
       <div class="rule">six problems, solved end to end</div>
     </div>
-    <div class="casesviewport" aria-label="Featured projects — scroll to slide them right to left">
+  </div>
+  <div class="casesviewport" aria-label="Featured projects — scroll to slide them right to left">
       <div class="cases-track" id="casesTrack">
         <div class="cases-set">
 
@@ -390,8 +394,7 @@
         </div>
       </div>
     </div>
-    <div class="scrollhint">keep scrolling — the work slides with you ↓</div>
-  </div>
+    <div class="wrap"><div class="scrollhint">keep scrolling — the work slides with you ↓</div></div>
   </div>
 </section>
 
@@ -577,11 +580,12 @@
     });
   }
 
-  /* Work: vertical scroll drives horizontal travel, right to left */
+  /* Work: vertical scroll drives horizontal travel, right to left, on an eased curve */
   var track = document.getElementById('casesTrack');
   var workSec = document.getElementById('work');
   var viewport = document.querySelector('.casesviewport');
   var travel = 0, secTop = 0, secRange = 1;
+  var curX = 0, targetX = 0, rafId = 0;
   function measure() {
     if (!track || !viewport || reduce) return;
     travel = Math.max(0, track.scrollWidth - viewport.clientWidth);
@@ -589,11 +593,26 @@
     secTop = workSec.offsetTop;
     secRange = Math.max(1, workSec.offsetHeight - window.innerHeight);
   }
-  function onScroll() {
-    if (track && travel > 0 && !reduce) {
-      var p = Math.min(1, Math.max(0, (window.scrollY - secTop) / secRange));
-      track.style.transform = 'translateX(' + (-p * travel) + 'px)';
+  /* smoothstep: slow start, glide in the middle, slow stop — the source's curve */
+  function smoothstep(t) { return t * t * (3 - 2 * t); }
+  function paint() {
+    rafId = 0;
+    var diff = targetX - curX;
+    if (Math.abs(diff) < 0.4) {
+      curX = targetX;
+    } else {
+      curX += diff * 0.14;
+      rafId = requestAnimationFrame(paint);
     }
+    track.style.transform = 'translate3d(' + curX.toFixed(2) + 'px,0,0)';
+  }
+  function workTarget() {
+    var p = Math.min(1, Math.max(0, (window.scrollY - secTop) / secRange));
+    targetX = -smoothstep(p) * travel;
+    if (!rafId) rafId = requestAnimationFrame(paint);
+  }
+  function onScroll() {
+    if (track && travel > 0 && !reduce) workTarget();
     if (words.length) {
       if (reduce) { words.forEach(function (s) { s.classList.add('lit'); }); return; }
       var r = aboutLine.getBoundingClientRect();
@@ -612,8 +631,21 @@
   window.addEventListener('scroll', function () {
     if (!ticking) { ticking = true; requestAnimationFrame(function () { onScroll(); ticking = false; }); }
   }, { passive: true });
-  window.addEventListener('resize', function () { measure(); onScroll(); });
+  window.addEventListener('resize', function () {
+    measure();
+    if (track && travel > 0 && !reduce) {
+      var rp = Math.min(1, Math.max(0, (window.scrollY - secTop) / secRange));
+      targetX = -smoothstep(rp) * travel;
+      curX = targetX;
+      track.style.transform = 'translate3d(' + curX.toFixed(2) + 'px,0,0)';
+    }
+    onScroll();
+  });
   measure(); onScroll();
+  window.addEventListener('load', function () { measure(); onScroll(); });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { measure(); onScroll(); });
+  }
   if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
