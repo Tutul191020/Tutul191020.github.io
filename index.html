@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shariar Islam Tutul — Backend Engineer</title>
+<title>Shariar Islam Tutul — Fintech Backend Engineer</title>
 <meta name="description" content="Backend Engineer with 2+ years building payment, ledger and reconciliation systems in Java and Spring Boot. Dhaka, Bangladesh — open to on-site, remote and international roles.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tutul191020.github.io/">
-<meta property="og:title" content="Shariar Islam Tutul — Backend Engineer">
+<meta property="og:title" content="Shariar Islam Tutul — Fintech Backend Engineer">
 <meta property="og:description" content="Payment, ledger & reconciliation systems in Java and Spring Boot. 76% latency cut · 95% fewer downstream calls · 99%+ gateway auto-recovery.">
 <meta property="og:image" content="https://tutul191020.github.io/assets/qarzmukti-dashboard.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -162,6 +162,15 @@
   .aboutline .w { color: rgba(244,244,242,.16); transition: color .35s; }
   .aboutline .w.lit { color: var(--text); }
   .aboutline .w.hl.lit { color: var(--accent-light); }
+  .aboutcard .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .aboutcard .chip { font-size: 11.5px; font-weight: 700; padding: 3px 11px; border-radius: 999px; background: var(--accent-soft); border: 1px solid rgba(249,115,22,.35); color: var(--accent-light); }
+  .stackgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+  .stackcard { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px 20px; }
+  .stackcard h4 { font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent-light); margin-bottom: 8px; }
+  .stackcard p { font-size: 13.5px; color: rgba(244,244,242,.85); }
+  .moregrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .bring { text-align: center; color: var(--muted); max-width: 780px; margin: 0 auto 30px; font-size: 14.5px; }
+  .bring strong { color: var(--accent-light); }
 
   /* Contact */
   #contact { background: radial-gradient(ellipse 80% 90% at 50% 100%, rgba(249,115,22,.14), transparent 70%); }
@@ -196,6 +205,7 @@
     .avatarframe { order: -1; }
     .avatarframe img { max-width: 240px; }
     .aboutgrid { grid-template-columns: 1fr; }
+    .moregrid { grid-template-columns: 1fr; }
     .case { flex-basis: 310px; width: 310px; }
     .contactgrid { grid-template-columns: 1fr; }
     .pill a { padding: 7px 10px; font-size: 12.5px; }
@@ -223,6 +233,7 @@
     <span class="logo" aria-hidden="true">T</span>
     <a href="#work">Work</a>
     <a href="#experience">Experience</a>
+    <a href="#stack">Stack</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
   </div>
@@ -233,8 +244,8 @@
   <div class="wrap hero">
     <div>
       <span class="greet"><span class="wave" aria-hidden="true">👋</span> Hi, I'm Shariar Islam Tutul</span>
-      <h1>Backend engineer building <span class="hl">payment &amp; ledger systems</span> that stay correct under load.</h1>
-      <p class="sub">2+ years with Java and Spring Boot across card platforms, reconciliation engines and multi-tenant logistics — with a spec-driven, AI-assisted workflow and human review on every change.</p>
+      <h1>Fintech backend engineer building <span class="hl">payment &amp; ledger systems</span> that stay correct under load.</h1>
+      <p class="sub">2+ years building high-traffic financial platforms — card-selling ecosystems, wallet management and KPI analytics — with deep focus on transactional consistency, distributed architecture and performance optimization in mission-critical environments.</p>
       <p class="meta"><strong>Dhaka, Bangladesh</strong> · Open to on-site, remote and international roles</p>
       <div class="cta">
         <a class="btn primary" href="https://github.com/Tutul191020" target="_blank" rel="noopener">GitHub</a>
@@ -251,8 +262,8 @@
 
 <div class="skillsband marquee" aria-label="Technologies">
   <div class="track">
-    <span>Java</span><span>Spring Boot</span><span>Spring Security</span><span>PostgreSQL</span><span>Redis</span><span>Keycloak</span><span>MongoDB</span><span>PostGIS</span><span>Outbox</span><span>Saga</span><span>Circuit Breaker</span><span>Idempotency</span><span>Docker</span><span>Datadog</span><span>React</span><span>TypeScript</span>
-    <span>Java</span><span>Spring Boot</span><span>Spring Security</span><span>PostgreSQL</span><span>Redis</span><span>Keycloak</span><span>MongoDB</span><span>PostGIS</span><span>Outbox</span><span>Saga</span><span>Circuit Breaker</span><span>Idempotency</span><span>Docker</span><span>Datadog</span><span>React</span><span>TypeScript</span>
+    <span>Java</span><span>Spring Boot</span><span>Spring Security</span><span>PostgreSQL</span><span>Redis</span><span>Keycloak</span><span>MongoDB</span><span>PostGIS</span><span>Outbox</span><span>Saga</span><span>Circuit Breaker</span><span>Idempotency</span><span>Docker</span><span>CloudWatch</span><span>React</span><span>TypeScript</span>
+    <span>Java</span><span>Spring Boot</span><span>Spring Security</span><span>PostgreSQL</span><span>Redis</span><span>Keycloak</span><span>MongoDB</span><span>PostGIS</span><span>Outbox</span><span>Saga</span><span>Circuit Breaker</span><span>Idempotency</span><span>Docker</span><span>CloudWatch</span><span>React</span><span>TypeScript</span>
   </div>
 </div>
 
@@ -266,15 +277,19 @@
       <div class="shield"><div class="n">76%</div><div class="l">verification latency cut</div></div>
       <div class="shield"><div class="n">95%</div><div class="l">fewer downstream calls</div></div>
       <div class="shield"><div class="n">85%</div><div class="l">fewer Keycloak calls</div></div>
-      <div class="shield"><div class="n">99%+</div><div class="l">gateway auto-recovery</div></div>
+      <div class="shield"><div class="n">40%</div><div class="l">CPU cut via cached RSA parsing</div></div>
+      <div class="shield"><div class="n">99.2%</div><div class="l">transient-failure recovery</div></div>
       <div class="shield"><div class="n">300k+</div><div class="l">orders/day architecture</div></div>
-      <div class="shield"><div class="n">2+</div><div class="l">years in production fintech</div></div>
+      <div class="shield"><div class="n">3</div><div class="l">production fintech platforms</div></div>
+      <div class="shield"><div class="n">0</div><div class="l">financial discrepancies</div></div>
       <div class="shield"><div class="n">76%</div><div class="l">verification latency cut</div></div>
       <div class="shield"><div class="n">95%</div><div class="l">fewer downstream calls</div></div>
       <div class="shield"><div class="n">85%</div><div class="l">fewer Keycloak calls</div></div>
-      <div class="shield"><div class="n">99%+</div><div class="l">gateway auto-recovery</div></div>
+      <div class="shield"><div class="n">40%</div><div class="l">CPU cut via cached RSA parsing</div></div>
+      <div class="shield"><div class="n">99.2%</div><div class="l">transient-failure recovery</div></div>
       <div class="shield"><div class="n">300k+</div><div class="l">orders/day architecture</div></div>
-      <div class="shield"><div class="n">2+</div><div class="l">years in production fintech</div></div>
+      <div class="shield"><div class="n">3</div><div class="l">production fintech platforms</div></div>
+      <div class="shield"><div class="n">0</div><div class="l">financial discrepancies</div></div>
     </div>
   </div>
 </section>
@@ -312,11 +327,13 @@
         <h3>Card Selling Platform — verification latency cut 76%, downstream calls 95%</h3>
         <p>Composite indexes plus Caffeine/Redis cache-aside transformed card verification; role caching cut Keycloak traffic 85%.</p>
         <ul>
-          <li>Ledger-based transfer engine with approvals, reversals, Outbox + ShedLock workers</li>
-          <li>2FA device auth and hierarchical RBAC</li>
-          <li>Resilience4j circuit breaker on the payment gateway: 99%+ automatic recovery</li>
+          <li>Distributed ledger transfers: strategy pattern, approvals, reversals, Outbox + ShedLock workers</li>
+          <li>Keycloak-synced provisioning (bi-directional outbox), 2FA device auth, hierarchical RBAC</li>
+          <li>Caffeine + Redis two-tier cache; cached RSA key parsing cut CPU 40%</li>
+          <li>Resilience4j circuit breaker + exponential backoff on FIB gateway: 99.2% transient-failure recovery</li>
         </ul>
         <div class="chips"><span class="chip">Spring Boot</span><span class="chip">PostgreSQL</span><span class="chip">Redis</span><span class="chip">Keycloak</span><span class="chip">Caffeine</span><span class="chip">Resilience4j</span></div>
+        <a class="src" href="https://panel.cardselling.cash" target="_blank" rel="noopener">Live ↗</a>
       </article>
 
       <article class="case c-blue reveal">
@@ -336,11 +353,13 @@
         <h3>SR Target &amp; KPI Platform — enterprise KPIs, verified by spatial queries</h3>
         <p>Target-vs-achievement engine used in Iraq across a Manager → Sales Rep → Agent hierarchy, with daily ingestion from three external REST APIs.</p>
         <ul>
-          <li>PostGIS spatial verification maps each market to its nearest assigned SR</li>
-          <li>Verified shop locations surfaced directly in the app</li>
-          <li>Automated daily ingestion keeps KPIs current without manual entry</li>
+          <li>Target-vs-achievement in IQD, top-seller rankings, sales-by-city/category dashboards</li>
+          <li>Daily ingestion from 3 external APIs (Card Selling, FastPay, legacy CS_OLD) via WebClient</li>
+          <li>Async Excel/CSV exports (Apache POI); PostGIS verification maps markets to nearest SR</li>
+          <li>Role-gated APIs: Keycloak OAuth2/JWT introspection + group-mapped roles</li>
         </ul>
-        <div class="chips"><span class="chip">Spring Boot</span><span class="chip">PostgreSQL</span><span class="chip">PostGIS</span><span class="chip">Redis</span><span class="chip">REST ingestion</span></div>
+        <div class="chips"><span class="chip">Spring Boot</span><span class="chip">PostgreSQL</span><span class="chip">PostGIS</span><span class="chip">Redis</span><span class="chip">Apache POI</span></div>
+        <a class="src" href="https://kpi.cardselling.cash" target="_blank" rel="noopener">Live ↗</a>
       </article>
 
       <article class="case c-orange reveal">
@@ -348,11 +367,12 @@
         <h3>TEAMMART Digital Cards — transactional integrity from purchase to day-end close</h3>
         <p>Gift card and top-up purchase/refund flows with transactional debit/credit and pessimistic locking.</p>
         <ul>
-          <li>Agent cash reconciliation and day-end closing reports</li>
-          <li>MongoDB audit logging and Datadog monitoring</li>
+          <li>Agent cash reconciliation and day-end closing balance reporting</li>
+          <li>MongoDB-backed audit logging with SLF4J + Actuator health checks</li>
           <li>Refund paths designed to never double-credit</li>
         </ul>
-        <div class="chips"><span class="chip">Spring Boot</span><span class="chip">PostgreSQL</span><span class="chip">MongoDB</span><span class="chip">Datadog</span><span class="chip">Pessimistic locking</span></div>
+        <div class="chips"><span class="chip">Spring Boot</span><span class="chip">PostgreSQL</span><span class="chip">MongoDB</span><span class="chip">Actuator</span><span class="chip">Pessimistic locking</span></div>
+        <a class="src" href="https://team-mart.cardselling.cash" target="_blank" rel="noopener">Live ↗</a>
       </article>
 
       <article class="case c-olive reveal">
@@ -372,6 +392,32 @@
     </div>
     <div class="scrollhint">keep scrolling — the work slides with you ↓</div>
   </div>
+  </div>
+</section>
+
+<section id="more">
+  <div class="wrap">
+    <div class="sechead reveal">
+      <h2>Also Built</h2>
+      <div class="rule">more systems, same standards</div>
+    </div>
+    <div class="moregrid">
+      <div class="aboutcard reveal">
+        <h3>HireHub</h3>
+        <p>Job portal backend with applicant tracking, role-based access and recruitment workflow automation.</p>
+        <div class="chips"><span class="chip">Spring Boot</span><span class="chip">RBAC</span><span class="chip">Workflows</span></div>
+      </div>
+      <div class="aboutcard reveal">
+        <h3>Employee Leave Management</h3>
+        <p>Leave request, approval workflow and balance tracking system built with Spring Boot &amp; PostgreSQL.</p>
+        <div class="chips"><span class="chip">Spring Boot</span><span class="chip">PostgreSQL</span><span class="chip">Approvals</span></div>
+      </div>
+      <div class="aboutcard reveal">
+        <h3>DataDock</h3>
+        <p>Banking system — live production project in the card-selling ecosystem.</p>
+        <div class="chips"><span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">Banking</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -406,9 +452,26 @@
         <h4>TEAMMART Digital Card Platform</h4>
         <div class="stackline">Spring Boot · PostgreSQL · MongoDB · Nov 2025 – Present</div>
         <ul>
-          <li>Gift card/top-up flows with transactional debit/credit; agent cash reconciliation, day-end reports, MongoDB audit logging, Datadog.</li>
+          <li>Gift card/top-up flows with transactional debit/credit; agent cash reconciliation, day-end closing reports, MongoDB audit logging, SLF4J + Actuator health checks.</li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="sechead reveal">
+      <h2>Core Engineering Stack</h2>
+      <div class="rule">daily drivers, not logo collection</div>
+    </div>
+    <div class="stackgrid">
+      <div class="stackcard reveal"><h4>Backend</h4><p>Java (primary) · SQL · Spring Boot · Spring Security · Spring Data JPA · Spring Batch · Hibernate · REST · Webhooks</p></div>
+      <div class="stackcard reveal"><h4>Architecture</h4><p>Microservices · Monolith · Event-Driven · Multi-tenancy · Outbox · Saga · Cache-Aside · Circuit Breaker · Idempotency · Retry &amp; Fault Tolerance</p></div>
+      <div class="stackcard reveal"><h4>Security &amp; Data</h4><p>Keycloak · OAuth2 · JWT · RBAC · 2FA · PostgreSQL · PostGIS · MongoDB · Redis · Caffeine</p></div>
+      <div class="stackcard reveal"><h4>Fintech &amp; Ops</h4><p>Ledger · Reconciliation · Payment Gateways · Audit Logging · Docker · AWS CloudWatch · LogHub</p></div>
+      <div class="stackcard reveal"><h4>Frontend</h4><p>React 18 · TypeScript · Vite · Tailwind CSS · Recharts</p></div>
+      <div class="stackcard reveal"><h4>Quality &amp; Tools</h4><p>JUnit 5 · Mockito · AssertJ · GitHub Actions CI · Postman · Swagger · Jira · multi-stage Docker builds</p></div>
     </div>
   </div>
 </section>
@@ -419,7 +482,7 @@
       <h2>About</h2>
       <div class="rule">the person behind the systems</div>
     </div>
-    <p class="aboutline" id="aboutLine">From card platforms to micro-lending, I've spent 2+ years building payment, ledger and reconciliation systems that stay correct under load — with tests on the money paths, audit trails on every change, and a spec-driven, AI-assisted workflow that keeps humans in review.</p>
+    <p class="aboutline" id="aboutLine">From card-selling ecosystems to micro-lending, I've spent 2+ years building high-traffic financial platforms in Java and Spring Boot — distributed ledgers, wallet consistency, KPI analytics and reconciliation engines with zero financial discrepancies. My focus is transactional consistency, distributed architecture and performance optimization in mission-critical fintech — and I take end-to-end ownership from design through deployment.</p>
     <div class="aboutgrid">
       <div class="aboutcard reveal">
         <h3>Principles</h3>
@@ -436,6 +499,11 @@
         <p style="margin-top:14px"><span class="k">Education</span><br>BSc in Computer Science &amp; Engineering<br>United International University, Dhaka · 2020–2024</p>
       </div>
     </div>
+    <div class="aboutcard reveal" style="margin-top:22px">
+      <h3>Fintech expertise &amp; work style</h3>
+      <p>High-volume transaction processing · Wallet &amp; debit-credit consistency · Reconciliation &amp; financial reporting · Event-driven payment flows · OTP &amp; fraud-prevention controls · Stateless JWT auth for financial APIs. Strong communicator across technical and product teams.</p>
+      <div class="chips"><span class="chip">Ownership</span><span class="chip">System Thinking</span><span class="chip">Deadline-Driven</span><span class="chip">Clean Code</span><span class="chip">Documentation</span></div>
+    </div>
   </div>
 </section>
 
@@ -445,6 +513,7 @@
       <h2>Let's Build Something Reliable</h2>
       <div class="rule">open to on-site, remote and international roles</div>
     </div>
+    <p class="bring reveal"><strong>What I bring to your fintech team:</strong> shipped 3 production financial systems · proven performance wins (76% latency cut, 95% API reduction) · expert in payment consistency, RBAC and event-driven architecture · 2+ years Java/Spring Boot in fintech.</p>
     <div class="contactgrid">
       <a class="ccard reveal" href="mailto:tutulewu214@gmail.com">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
@@ -468,7 +537,7 @@
 
 <footer>
   <div class="wrap">
-    <span>© 2026 Shariar Islam Tutul · Backend Engineer</span>
+    <span>© 2026 Shariar Islam Tutul · Fintech Backend Engineer</span>
     <span>Plain HTML/CSS · GitHub Pages</span>
   </div>
 </footer>
@@ -484,11 +553,15 @@
   var words = [];
   if (aboutLine) {
     var segs = [
-      { t: "From card platforms to micro-lending, I've spent 2+ years building " },
-      { t: "payment, ledger and reconciliation systems", hl: true },
-      { t: " that " },
-      { t: "stay correct under load", hl: true },
-      { t: " — with tests on the money paths, audit trails on every change, and a spec-driven, AI-assisted workflow that keeps humans in review." }
+      { t: "From card-selling ecosystems to micro-lending, I've spent 2+ years building " },
+      { t: "high-traffic financial platforms", hl: true },
+      { t: " in Java and Spring Boot — distributed ledgers, wallet consistency, KPI analytics and reconciliation engines with " },
+      { t: "zero financial discrepancies.", hl: true },
+      { t: " My focus is " },
+      { t: "transactional consistency,", hl: true },
+      { t: " distributed architecture and performance optimization in mission-critical fintech — and I take " },
+      { t: "end-to-end ownership", hl: true },
+      { t: " from design through deployment." }
     ];
     aboutLine.textContent = '';
     segs.forEach(function (seg) {
@@ -561,7 +634,7 @@
         }
       });
     }, { rootMargin: '-30% 0px -60% 0px' });
-    ['work', 'experience', 'about', 'contact'].forEach(function (id) { var el = document.getElementById(id); if (el) aio.observe(el); });
+    ['work', 'experience', 'stack', 'about', 'contact'].forEach(function (id) { var el = document.getElementById(id); if (el) aio.observe(el); });
   }
   var toTop = document.getElementById('toTop');
   window.addEventListener('scroll', function () { toTop.classList.toggle('show', window.scrollY > 600); }, { passive: true });
