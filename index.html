@@ -112,6 +112,7 @@
   .casesmarquee:hover .cases-track { animation-play-state: paused; }
   @keyframes cases-slide { from { transform: translateX(-50%); } to { transform: translateX(0); } }
   .cases-set { display: flex; gap: 22px; padding-right: 22px; align-items: stretch; }
+  .casesmarquee .reveal { opacity: 1; transform: none; transition: none; }
   .case { flex: 0 0 440px; width: 440px; border-radius: 18px; padding: 26px; position: relative; overflow: hidden; border: 1px solid rgba(244,244,242,.1); display: flex; flex-direction: column; }
   .case::before { content: ""; position: absolute; inset: 0; background: repeating-conic-gradient(from 0deg at 85% -10%, rgba(255,255,255,.045) 0deg 6deg, transparent 6deg 12deg); pointer-events: none; }
   .case .tag { align-self: flex-start; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.22); padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
