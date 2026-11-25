@@ -106,11 +106,14 @@
   .shield .n { font-family: var(--serif); font-weight: 900; font-size: 24px; color: var(--accent-light); }
   .shield .l { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
 
-  /* Case cards */
-  .cases { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-  .case { border-radius: 18px; padding: 26px; position: relative; overflow: hidden; border: 1px solid rgba(244,244,242,.1); display: flex; flex-direction: column; }
+  /* Case cards — horizontal slide using the reference's marquee technique */
+  .casesmarquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+  .cases-track { display: flex; width: max-content; animation: cases-slide 75s linear infinite; }
+  .casesmarquee:hover .cases-track { animation-play-state: paused; }
+  @keyframes cases-slide { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .cases-set { display: flex; gap: 22px; padding-right: 22px; align-items: stretch; }
+  .case { flex: 0 0 440px; width: 440px; border-radius: 18px; padding: 26px; position: relative; overflow: hidden; border: 1px solid rgba(244,244,242,.1); display: flex; flex-direction: column; }
   .case::before { content: ""; position: absolute; inset: 0; background: repeating-conic-gradient(from 0deg at 85% -10%, rgba(255,255,255,.045) 0deg 6deg, transparent 6deg 12deg); pointer-events: none; }
-  .case.wide { grid-column: 1 / -1; }
   .case .tag { align-self: flex-start; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.22); padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
   .case h3 { font-family: var(--serif); font-weight: 700; font-size: 19px; line-height: 1.4; margin-bottom: 10px; }
   .case h3 a { color: inherit; }
@@ -177,12 +180,15 @@
     html { scroll-behavior: auto; }
     .reveal { opacity: 1; transform: none; transition: none; }
     .marquee .track { animation: none; }
+    .cases-track { animation: none; }
+    .casesmarquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
   }
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; }
     .avatarframe { order: -1; }
     .avatarframe img { max-width: 240px; }
-    .cases, .aboutgrid { grid-template-columns: 1fr; }
+    .aboutgrid { grid-template-columns: 1fr; }
+    .case { flex-basis: 310px; width: 310px; }
     .contactgrid { grid-template-columns: 1fr; }
     .pill a { padding: 7px 10px; font-size: 12.5px; }
   }
@@ -190,6 +196,11 @@
     nav, #toTop, .cta, .skillsband, .badgesmarquee { display: none !important; }
     body { background: #fff; color: #000; }
     .case, .xpcard, .aboutcard, .ccard { border-color: #bbb; break-inside: avoid; }
+    .casesmarquee { overflow: visible; -webkit-mask-image: none; mask-image: none; }
+    .cases-track { animation: none; width: auto; }
+    .cases-set { flex-wrap: wrap; }
+    .cases-set.clone { display: none; }
+    .case { width: auto; flex: 1 1 45%; }
     .reveal { opacity: 1; transform: none; }
   }
 </style>
@@ -262,11 +273,13 @@
   <div class="wrap">
     <div class="sechead reveal">
       <h2>Featured Projects</h2>
-      <div class="rule">problems solved, end to end</div>
+      <div class="rule">six problems, solved end to end · hover to pause</div>
     </div>
-    <div class="cases">
+    <div class="casesmarquee" aria-label="Featured projects, sliding carousel — hover to pause">
+      <div class="cases-track" id="casesTrack">
+        <div class="cases-set">
 
-      <article class="case c-teal wide reveal">
+      <article class="case c-teal reveal">
         <span class="tag">Personal project · open source</span>
         <h3><a href="https://github.com/Tutul191020/Micro-Lending-Platform" target="_blank" rel="noopener">QarzMukti — a micro-lending core that handles real-world payments</a></h3>
         <p>Loan origination, KYC onboarding, treasury management and a repayment engine for the payments borrowers actually make: partial, late, or more than due.</p>
@@ -343,6 +356,8 @@
         <div class="chips"><span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">TypeScript</span><span class="chip">E-commerce</span></div>
       </article>
 
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -449,6 +464,14 @@
 <script>
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var track = document.getElementById('casesTrack');
+  if (track && !reduce) {
+    var set = track.querySelector('.cases-set');
+    var clone = set.cloneNode(true);
+    clone.classList.add('clone');
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+  }
   if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
