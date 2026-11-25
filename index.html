@@ -106,13 +106,14 @@
   .shield .n { font-family: var(--serif); font-weight: 900; font-size: 24px; color: var(--accent-light); }
   .shield .l { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
 
-  /* Case cards — horizontal slide using the reference's marquee technique */
-  .casesmarquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
-  .cases-track { display: flex; width: max-content; animation: cases-slide 75s linear infinite; }
-  .casesmarquee:hover .cases-track { animation-play-state: paused; }
-  @keyframes cases-slide { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  /* Case cards — horizontal travel driven by vertical scroll (right to left) */
+  .workscroll { position: relative; }
+  .worksticky { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+  .casesviewport { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+  .cases-track { display: flex; width: max-content; will-change: transform; }
   .cases-set { display: flex; gap: 22px; padding-right: 22px; align-items: stretch; }
-  .casesmarquee .reveal { opacity: 1; transform: none; transition: none; }
+  .casesviewport .reveal { opacity: 1; transform: none; transition: none; }
+  .scrollhint { text-align: center; color: var(--muted); font-size: 12px; margin-top: 18px; letter-spacing: .1em; text-transform: uppercase; }
   .case { flex: 0 0 440px; width: 440px; border-radius: 18px; padding: 26px; position: relative; overflow: hidden; border: 1px solid rgba(244,244,242,.1); display: flex; flex-direction: column; }
   .case::before { content: ""; position: absolute; inset: 0; background: repeating-conic-gradient(from 0deg at 85% -10%, rgba(255,255,255,.045) 0deg 6deg, transparent 6deg 12deg); pointer-events: none; }
   .case .tag { align-self: flex-start; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.22); padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
@@ -157,6 +158,10 @@
   .aboutcard ul { list-style: none; margin-top: 8px; }
   .aboutcard li { padding-left: 18px; position: relative; margin-bottom: 8px; }
   .aboutcard li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+  .aboutline { font-family: var(--serif); font-weight: 700; font-size: clamp(22px, 3.2vw, 40px); line-height: 1.5; max-width: 920px; margin: 0 auto 44px; text-align: center; }
+  .aboutline .w { color: rgba(244,244,242,.16); transition: color .35s; }
+  .aboutline .w.lit { color: var(--text); }
+  .aboutline .w.hl.lit { color: var(--accent-light); }
 
   /* Contact */
   #contact { background: radial-gradient(ellipse 80% 90% at 50% 100%, rgba(249,115,22,.14), transparent 70%); }
@@ -181,8 +186,10 @@
     html { scroll-behavior: auto; }
     .reveal { opacity: 1; transform: none; transition: none; }
     .marquee .track { animation: none; }
-    .cases-track { animation: none; }
-    .casesmarquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+    .casesviewport { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+    .worksticky { position: static; height: auto; }
+    .workscroll { height: auto !important; }
+    .aboutline .w { color: var(--text); }
   }
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; }
@@ -197,11 +204,13 @@
     nav, #toTop, .cta, .skillsband, .badgesmarquee { display: none !important; }
     body { background: #fff; color: #000; }
     .case, .xpcard, .aboutcard, .ccard { border-color: #bbb; break-inside: avoid; }
-    .casesmarquee { overflow: visible; -webkit-mask-image: none; mask-image: none; }
-    .cases-track { animation: none; width: auto; }
+    .casesviewport { overflow: visible; -webkit-mask-image: none; mask-image: none; }
+    .worksticky { position: static; height: auto; }
+    .workscroll { height: auto !important; }
+    .cases-track { width: auto; }
     .cases-set { flex-wrap: wrap; }
-    .cases-set.clone { display: none; }
     .case { width: auto; flex: 1 1 45%; }
+    .aboutline .w { color: #000 !important; }
     .reveal { opacity: 1; transform: none; }
   }
 </style>
@@ -270,13 +279,14 @@
   </div>
 </section>
 
-<section id="work">
+<section id="work" class="workscroll">
+  <div class="worksticky">
   <div class="wrap">
     <div class="sechead reveal">
       <h2>Featured Projects</h2>
-      <div class="rule">six problems, solved end to end · hover to pause</div>
+      <div class="rule">six problems, solved end to end</div>
     </div>
-    <div class="casesmarquee" aria-label="Featured projects, sliding carousel — hover to pause">
+    <div class="casesviewport" aria-label="Featured projects — scroll to slide them right to left">
       <div class="cases-track" id="casesTrack">
         <div class="cases-set">
 
@@ -360,6 +370,8 @@
         </div>
       </div>
     </div>
+    <div class="scrollhint">keep scrolling — the work slides with you ↓</div>
+  </div>
   </div>
 </section>
 
@@ -405,8 +417,9 @@
   <div class="wrap">
     <div class="sechead reveal">
       <h2>About</h2>
-      <div class="rule">how I work</div>
+      <div class="rule">the person behind the systems</div>
     </div>
+    <p class="aboutline" id="aboutLine">From card platforms to micro-lending, I've spent 2+ years building payment, ledger and reconciliation systems that stay correct under load — with tests on the money paths, audit trails on every change, and a spec-driven, AI-assisted workflow that keeps humans in review.</p>
     <div class="aboutgrid">
       <div class="aboutcard reveal">
         <h3>Principles</h3>
@@ -465,14 +478,69 @@
 <script>
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var track = document.getElementById('casesTrack');
-  if (track && !reduce) {
-    var set = track.querySelector('.cases-set');
-    var clone = set.cloneNode(true);
-    clone.classList.add('clone');
-    clone.setAttribute('aria-hidden', 'true');
-    track.appendChild(clone);
+
+  /* About: split the statement into words for scroll highlighting */
+  var aboutLine = document.getElementById('aboutLine');
+  var words = [];
+  if (aboutLine) {
+    var segs = [
+      { t: "From card platforms to micro-lending, I've spent 2+ years building " },
+      { t: "payment, ledger and reconciliation systems", hl: true },
+      { t: " that " },
+      { t: "stay correct under load", hl: true },
+      { t: " — with tests on the money paths, audit trails on every change, and a spec-driven, AI-assisted workflow that keeps humans in review." }
+    ];
+    aboutLine.textContent = '';
+    segs.forEach(function (seg) {
+      seg.t.split(/\s+/).forEach(function (w) {
+        if (!w) return;
+        var s = document.createElement('span');
+        s.className = 'w' + (seg.hl ? ' hl' : '');
+        s.textContent = w;
+        aboutLine.appendChild(s);
+        aboutLine.appendChild(document.createTextNode(' '));
+        words.push(s);
+      });
+    });
   }
+
+  /* Work: vertical scroll drives horizontal travel, right to left */
+  var track = document.getElementById('casesTrack');
+  var workSec = document.getElementById('work');
+  var viewport = document.querySelector('.casesviewport');
+  var travel = 0, secTop = 0, secRange = 1;
+  function measure() {
+    if (!track || !viewport || reduce) return;
+    travel = Math.max(0, track.scrollWidth - viewport.clientWidth);
+    workSec.style.height = (window.innerHeight + travel) + 'px';
+    secTop = workSec.offsetTop;
+    secRange = Math.max(1, workSec.offsetHeight - window.innerHeight);
+  }
+  function onScroll() {
+    if (track && travel > 0 && !reduce) {
+      var p = Math.min(1, Math.max(0, (window.scrollY - secTop) / secRange));
+      track.style.transform = 'translateX(' + (-p * travel) + 'px)';
+    }
+    if (words.length) {
+      if (reduce) { words.forEach(function (s) { s.classList.add('lit'); }); return; }
+      var r = aboutLine.getBoundingClientRect();
+      var prog = Math.min(1, Math.max(0, (window.innerHeight * 0.85 - r.top) / (r.height + window.innerHeight * 0.35)));
+      var lit = Math.floor(prog * words.length);
+      words.forEach(function (s, i) { s.classList.toggle('lit', i < lit); });
+    }
+  }
+  if (reduce) {
+    if (workSec) workSec.style.height = 'auto';
+    if (viewport) { viewport.style.overflowX = 'auto'; viewport.style.maskImage = 'none'; viewport.style.webkitMaskImage = 'none'; }
+    var ws = document.querySelector('.worksticky');
+    if (ws) { ws.style.position = 'static'; ws.style.height = 'auto'; }
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { onScroll(); ticking = false; }); }
+  }, { passive: true });
+  window.addEventListener('resize', function () { measure(); onScroll(); });
+  measure(); onScroll();
   if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
